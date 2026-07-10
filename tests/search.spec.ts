@@ -15,10 +15,15 @@ test("Search QA Automation Jobs", async ({ page }) => {
 
     const service = new SearchService(searchPage);
 
-    await service.searchJob(
-        "QA Automation Engineer",
-        "Bengaluru"
-    );
+    const criteria = {
+
+    keyword: "QA Automation Engineer",
+
+    location: "Bengaluru"
+
+};
+
+    await service.searchJob(criteria);
 
     await page.waitForTimeout(5000);
 
