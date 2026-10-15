@@ -1,7 +1,9 @@
 import { test } from "@playwright/test";
-import { SearchPage } from "../src/pages/SearchPage";
-import { SearchService } from "../src/services/SearchService";
 import { ENV } from "../src/config/env";
+import { SearchPage } from "../src/pages/SearchPage";
+import { JobPage } from "../src/pages/JobPage";
+import { SearchService } from "../src/services/SearchService";
+import { SearchCriteria } from "../src/types/SearchCriteria";
 
 test.use({
     storageState: "auth/auth.json"
@@ -13,23 +15,23 @@ test("Search QA Automation Jobs", async ({ page }) => {
 
     const searchPage = new SearchPage(page);
 
-    const service = new SearchService(searchPage);
+    const jobPage = new JobPage(page);
 
-    const criteria = {
+    const searchService = new SearchService(
+        searchPage,
+        jobPage
+    );
 
-    keyword: "QA Automation Engineer",
+    const criteria: SearchCriteria = {
 
-    location: "Bengaluru"
+        keyword: "QA Automation Engineer",
 
-};
+        location: "Bengaluru"
 
-    await service.searchJob(criteria);
+    };
 
-    await page.waitForTimeout(5000);
-
-    await page.screenshot({
-        path: "search-result.png",
-        fullPage: true
-    });
+    await searchService.performSearch(
+        criteria
+    );
 
 });

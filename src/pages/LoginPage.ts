@@ -12,51 +12,44 @@ export class LoginPage extends BasePage {
         exact: true
     });
 
-    private emailTextbox = this.page.getByRole("textbox", {
-        name: "Enter your active Email ID /"
-    });
+    private emailTextbox = this.page.getByPlaceholder(
+        "Enter your active Email ID / Username"
+    );
 
-    private passwordTextbox = this.page.getByRole("textbox", {
-        name: "Enter your password"
-    });
+    private passwordTextbox = this.page.getByPlaceholder(
+        "Enter your password"
+    );
 
     private loginButton = this.page.getByRole("button", {
         name: "Login",
         exact: true
     });
 
-    async openWebsite() {
+    async openWebsite(): Promise<void> {
         await this.page.goto("https://www.naukri.com/");
     }
 
-    async clickLogin() {
-        await this.loginLink.click();
+    async clickLogin(): Promise<void> {
+        await this.click(this.loginLink);
     }
 
-    async enterEmail(email: string) {
-        await this.emailTextbox.fill(email);
+    async enterEmail(email: string): Promise<void> {
+        await this.fill(this.emailTextbox, email);
     }
 
-    async enterPassword(password: string) {
-        await this.passwordTextbox.fill(password);
+    async enterPassword(password: string): Promise<void> {
+        await this.fill(this.passwordTextbox, password);
     }
 
-    async clickLoginButton() {
-        await this.loginButton.click();
+    async clickLoginButton(): Promise<void> {
+        await this.click(this.loginButton);
     }
 
-    async login(email: string, password: string) {
-
+    async login(email: string, password: string): Promise<void> {
         await this.openWebsite();
-
         await this.clickLogin();
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
-
         await this.clickLoginButton();
-
     }
-
 }

@@ -1,48 +1,52 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
-export class BasePage {
+export abstract class BasePage {
 
-    constructor(protected page: Page) {}
+    constructor(protected readonly page: Page) {}
 
-    async navigate(url: string) {
-        await this.page.goto(url);
-    }
-
-    async click(locator: Locator) {
+    protected async click(locator: Locator): Promise<void> {
         await locator.waitFor({ state: "visible" });
         await locator.click();
     }
 
-    async fill(locator: Locator, value: string) {
+    protected async fill(locator: Locator, value: string): Promise<void> {
         await locator.waitFor({ state: "visible" });
         await locator.fill(value);
     }
 
-    async type(locator: Locator, value: string) {
+    protected async type(locator: Locator, value: string): Promise<void> {
         await locator.waitFor({ state: "visible" });
         await locator.pressSequentially(value);
     }
 
-    async getText(locator: Locator) {
-        return await locator.textContent();
+    protected async getText(locator: Locator): Promise<string> {
+        return (await locator.textContent())?.trim() ?? "";
     }
 
-    async isVisible(locator: Locator) {
+    protected async getTexts(locator: Locator): Promise<string[]> {
+        return await locator.allTextContents();
+    }
+
+    protected async isVisible(locator: Locator): Promise<boolean> {
         return await locator.isVisible();
     }
 
-    async wait(seconds: number) {
-        await this.page.waitForTimeout(seconds * 1000);
+    protected async waitForVisible(locator: Locator): Promise<void> {
+        await locator.waitFor({ state: "visible" });
     }
 
-    async takeScreenshot(name: string) {
+    protected async wait(milliseconds: number): Promise<void> {
+        await this.page.waitForTimeout(milliseconds);
+    }
+
+    protected async takeScreenshot(name: string): Promise<void> {
         await this.page.screenshot({
             path: `screenshots/${name}.png`,
             fullPage: true
         });
     }
 
-    async verifyUrlContains(text: string) {
-        await expect(this.page).toHaveURL(new RegExp(text));
+    protected async verifyUrlContains(value: string): Promise<void> {
+        await expect(this.page).toHaveURL(new RegExp(value));
     }
 }

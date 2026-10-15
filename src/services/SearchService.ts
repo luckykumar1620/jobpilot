@@ -1,32 +1,35 @@
-import { SearchCriteria } from "../types/SearchCriteria";
 import { SearchPage } from "../pages/SearchPage";
+import { JobPage } from "../pages/JobPage";
+import { SearchCriteria } from "../types/SearchCriteria";
 import { Logger } from "../utils/Logger";
 
 export class SearchService {
 
-    constructor(private searchPage: SearchPage) {}
+    constructor(
+        private readonly searchPage: SearchPage,
+        private readonly jobPage: JobPage
+    ) {}
 
-    async searchJob(criteria: SearchCriteria) {
+    async performSearch(
+        criteria: SearchCriteria
+    ): Promise<void> {
 
-        Logger.info("Opening Search Panel");
+        Logger.info(
+            `Searching for: ${criteria.keyword}`
+        );
 
-        await this.searchPage.openSearchPanel();
+        await this.searchPage.performSearch(
+            criteria
+        );
 
-        Logger.info("Selecting Job Type");
+        Logger.success(
+            "Search completed successfully"
+        );
+    }
 
-        await this.searchPage.selectJobType();
+    async extractJobs() {
 
-        Logger.info(`Searching Keyword : ${criteria.keyword}`);
-
-        await this.searchPage.enterKeyword(criteria.keyword);
-
-        Logger.info(`Searching Location : ${criteria.location}`);
-
-        await this.searchPage.enterLocation(criteria.location);
-
-        Logger.info("Click Search");
-
-        await this.searchPage.clickSearch();
+        return await this.jobPage.extractJobs();
 
     }
 

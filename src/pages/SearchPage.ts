@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
+import { SearchCriteria } from "../types/SearchCriteria";
 
 export class SearchPage extends BasePage {
 
@@ -7,66 +8,61 @@ export class SearchPage extends BasePage {
         super(page);
     }
 
-    // ---------- Locators ----------
+    private searchPanel = this.page.getByRole("button", {
+        name: "Search jobs here"
+    });
 
-    private searchJobsHere =
-        this.page.getByText("Search jobs here");
+    private searchBar = this.page.locator("#ni-gnb-searchbar");
 
-    private jobTypeTextbox =
-        this.page.getByRole("textbox", {
-            name: "Select job type"
-        });
+    private jobTypeInput = this.searchBar.getByRole("textbox", {
+        name: "Select job type"
+    });
 
-    private jobOption =
-        this.page.getByText("Job", { exact: true });
+    private keywordInput = this.searchBar.getByPlaceholder(
+    "Enter keyword / designation / companies"
+    );
 
-    private keywordTextbox =
-        this.page.getByRole("textbox", {
-            name: "Enter keyword / designation"
-        });
+    private locationInput = this.searchBar.getByRole("textbox", {
+        name: "Enter location"
+    });
 
-    private locationTextbox =
-        this.page.getByRole("textbox", {
-            name: "Enter location"
-        });
+    private searchButton = this.searchBar.getByRole("button", {
+        name: /Search/
+    });
 
-    private searchButton =
-        this.page.getByRole("button", {
-            name: /Search/
-        });
-
-    // ---------- Actions ----------
-
-    async openSearchPanel() {
-
-        await this.click(this.searchJobsHere);
-
+    async openSearchPanel(): Promise<void> {
+        await this.click(this.searchPanel);
     }
 
-    async selectJobType() {
+    async selectJobType(): Promise<void> {
+        await this.click(this.jobTypeInput);
 
-        await this.click(this.jobTypeTextbox);
+        const jobOption = this.searchBar.getByText("Job", {
+            exact: true
+        });
 
-        await this.click(this.jobOption);
+        await this.click(jobOption);
 
+        await this.waitForVisible(this.keywordInput);
     }
 
-    async enterKeyword(keyword: string) {
-
-        await this.fill(this.keywordTextbox, keyword);
-
+    async enterKeyword(keyword: string): Promise<void> {
+        await this.fill(this.keywordInput, keyword);
     }
 
-    async enterLocation(location: string) {
-
-        await this.fill(this.locationTextbox, location);
-
+    async enterLocation(location: string): Promise<void> {
+        await this.fill(this.locationInput, location);
     }
 
-    async clickSearch() {
-
+    async clickSearchButton(): Promise<void> {
         await this.click(this.searchButton);
-
     }
 
+    async performSearch(criteria: SearchCriteria): Promise<void> {
+        await this.openSearchPanel();
+        await this.selectJobType();
+        await this.enterKeyword(criteria.keyword);
+        await this.enterLocation(criteria.location);
+        await this.clickSearchButton();
+    }
 }

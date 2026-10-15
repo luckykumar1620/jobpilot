@@ -1,11 +1,15 @@
 export class Logger {
 
-    static info(message: string) {
+    static info(message: string): void {
         console.log(`[INFO] ${message}`);
     }
 
-    static error(message: string) {
-        console.log(`[ERROR] ${message}`);
+    static error(message: string): void {
+        console.error(`[ERROR] ${message}`);
+    }
+
+    static success(message: string): void {
+        console.log(`[SUCCESS] ${message}`);
     }
 
 }
