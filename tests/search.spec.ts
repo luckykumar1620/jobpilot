@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { ENV } from "../src/config/env";
 import { SearchPage } from "../src/pages/SearchPage";
 import { JobPage } from "../src/pages/JobPage";
@@ -9,7 +9,7 @@ test.use({
     storageState: "auth/auth.json"
 });
 
-test("Search QA Automation Jobs", async ({ page }) => {
+test("Search and Extract Jobs", async ({ page }) => {
 
     await page.goto(ENV.BASE_URL);
 
@@ -23,15 +23,21 @@ test("Search QA Automation Jobs", async ({ page }) => {
     );
 
     const criteria: SearchCriteria = {
-
         keyword: "QA Automation Engineer",
-
         location: "Bengaluru"
-
     };
 
     await searchService.performSearch(
         criteria
     );
+
+    const jobs =
+        await searchService.extractJobs();
+
+    console.log(
+        JSON.stringify(jobs, null, 2)
+    );
+
+    expect(jobs.length).toBeGreaterThan(0);
 
 });

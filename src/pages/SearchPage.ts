@@ -54,8 +54,22 @@ export class SearchPage extends BasePage {
         await this.fill(this.locationInput, location);
     }
 
-    async clickSearchButton(): Promise<void> {
-        await this.click(this.searchButton);
+   async clickSearchButton(): Promise<void> {
+    await this.click(this.searchButton);
+
+    await this.page.waitForURL(
+        /naukri\.com\/.*-jobs-in-/,
+        {
+            timeout: 30000
+        }
+    );
+
+    await this.page.locator(
+        "div.cust-job-tuple"
+    ).first().waitFor({
+        state: "visible",
+        timeout: 30000
+    });
     }
 
     async performSearch(criteria: SearchCriteria): Promise<void> {
