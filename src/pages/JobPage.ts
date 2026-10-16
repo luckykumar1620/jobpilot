@@ -18,6 +18,17 @@ export class JobPage extends BasePage {
     }
 
     /**
+     * Apply button on the Naukri job details page.
+     */
+    private applyButton = this.page.getByRole(
+    "button",
+    {
+        name: "Apply",
+        exact: true
+    }
+    ).first();
+
+    /**
      * Get total number of jobs displayed.
      */
     async getTotalJobs(): Promise<number> {
@@ -84,6 +95,19 @@ export class JobPage extends BasePage {
         }
 
         return jobs;
+    }
+
+    /**
+     * Click Apply button on job details page.
+     */
+    async clickApply(): Promise<void> {
+
+        await this.applyButton.waitFor({
+            state: "visible",
+            timeout: 10000
+        });
+
+        await this.applyButton.click();
     }
 
     /**
