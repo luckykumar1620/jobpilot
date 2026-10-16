@@ -3,12 +3,14 @@ import { JobPage } from "../pages/JobPage";
 import { SearchCriteria } from "../types/SearchCriteria";
 import { Job } from "../types/Job";
 import { Logger } from "../utils/Logger";
+import { JobStorageService } from "./JobStorageService";
 
 export class SearchService {
 
     constructor(
         private readonly searchPage: SearchPage,
-        private readonly jobPage: JobPage
+        private readonly jobPage: JobPage,
+        private readonly jobStorageService: JobStorageService
     ) {}
 
     async performSearch(
@@ -42,5 +44,22 @@ export class SearchService {
         );
 
         return jobs;
+    }
+
+    async saveJobs(
+        jobs: Job[]
+    ): Promise<void> {
+
+        Logger.info(
+            "Saving jobs to jobs.json..."
+        );
+
+        await this.jobStorageService.saveJobs(
+            jobs
+        );
+
+        Logger.success(
+            `Saved ${jobs.length} jobs to jobs.json`
+        );
     }
 }

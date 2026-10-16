@@ -3,13 +3,14 @@ import { ENV } from "../src/config/env";
 import { SearchPage } from "../src/pages/SearchPage";
 import { JobPage } from "../src/pages/JobPage";
 import { SearchService } from "../src/services/SearchService";
+import { JobStorageService } from "../src/services/JobStorageService";
 import { SearchCriteria } from "../src/types/SearchCriteria";
 
 test.use({
     storageState: "auth/auth.json"
 });
 
-test("Search and Extract Jobs", async ({ page }) => {
+test("Search, Extract and Save Jobs", async ({ page }) => {
 
     await page.goto(ENV.BASE_URL);
 
@@ -17,10 +18,15 @@ test("Search and Extract Jobs", async ({ page }) => {
 
     const jobPage = new JobPage(page);
 
-    const searchService = new SearchService(
-        searchPage,
-        jobPage
-    );
+    const jobStorageService =
+        new JobStorageService();
+
+    const searchService =
+        new SearchService(
+            searchPage,
+            jobPage,
+            jobStorageService
+        );
 
     const criteria: SearchCriteria = {
         keyword: "QA Automation Engineer",
@@ -34,10 +40,8 @@ test("Search and Extract Jobs", async ({ page }) => {
     const jobs =
         await searchService.extractJobs();
 
-    console.log(
-        JSON.stringify(jobs, null, 2)
-    );
-
     expect(jobs.length).toBeGreaterThan(0);
+
+    await searchService.saveJobs(jobs);
 
 });
