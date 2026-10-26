@@ -17,46 +17,46 @@ export class ApplicationPage extends BasePage {
 
     async getQuestion(): Promise<string> {
 
-    const count =
-        await this.questionMessages.count();
+        const count =
+            await this.questionMessages.count();
 
-    for (
-        let index = count - 1;
-        index >= 0;
-        index--
-    ) {
-
-        const message =
-            (
-                await this.questionMessages
-                    .nth(index)
-                    .textContent()
-            )?.trim() ?? "";
-
-        if (!message) {
-            continue;
-        }
-
-        const normalizedMessage =
-            message.toLowerCase();
-
-        // Ignore Naukri's introductory message
-        if (
-            normalizedMessage.includes(
-                "thank you for showing interest"
-            ) &&
-            normalizedMessage.includes(
-                "recruiter's questions"
-            )
+        for (
+            let index = count - 1;
+            index >= 0;
+            index--
         ) {
-            continue;
+
+            const message =
+                (
+                    await this.questionMessages
+                        .nth(index)
+                        .textContent()
+                )?.trim() ?? "";
+
+            if (!message) {
+                continue;
+            }
+
+            const normalizedMessage =
+                message.toLowerCase();
+
+            // Ignore Naukri's introductory message
+            if (
+                normalizedMessage.includes(
+                    "thank you for showing interest"
+                ) &&
+                normalizedMessage.includes(
+                    "recruiter's questions"
+                )
+            ) {
+                continue;
+            }
+
+            return message;
         }
 
-        return message;
+        return "";
     }
-
-    return "";
-}
 
     async enterAnswer(answer: string): Promise<void> {
 
@@ -247,6 +247,28 @@ export class ApplicationPage extends BasePage {
         await saveButton.click();
     }
 
+    async isDirectApplicationSuccessful(): Promise<boolean> {
+
+        const successMessage =
+            this.page.getByText(
+                /You have successfully applied to/i
+            ).first();
+
+        try {
+
+            await successMessage.waitFor({
+                state: "visible",
+                timeout: 5000
+            });
+
+            return true;
+
+        } catch {
+
+            return false;
+        }
+    }
+    
     async isApplicationCompleted(): Promise<boolean> {
 
         const messages =

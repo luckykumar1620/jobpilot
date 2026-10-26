@@ -3,6 +3,7 @@ import { JobPage } from "../src/pages/JobPage";
 import { ApplyService } from "../src/services/ApplyService";
 import { ApplicationPage } from "../src/pages/ApplicationPage";
 import { AnswerService } from "../src/services/AnswerService";
+import { Job } from "../src/types/Job";
 
 test.use({
     storageState: "auth/auth.json"
@@ -11,7 +12,7 @@ test.use({
 test("Verify recruiter questions", async ({ page }) => {
 
     await page.goto(
-        "https://www.naukri.com/job-listings-machine-learning-engineer-0-5-tech-mahindra-noida-pune-bengaluru-0-to-5-years-300926017847?src=jobsearchDesk&sid=17921733154462969&xp=1&px=1",
+        "https://www.naukri.com/job-listings-software-java-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-5-years-261026001726?src=jobsearchDesk&sid=17929952907156001&xp=8&px=1&nignbevent_src=jobsearchDeskGNB",
         {
             waitUntil: "domcontentloaded",
             timeout: 30000
@@ -30,11 +31,48 @@ test("Verify recruiter questions", async ({ page }) => {
     const answerService =
         new AnswerService();
 
+    const job: Job = {
+        id: "261026001726",
+        title: "Software Java Developer",
+        company: "Creative Hands HR",
+        location: "Hyderabad, Chennai, Bengaluru",
+        experience: "0-5 Years",
+        salary: "",
+        postedDate: "",
+        jobUrl: "https://www.naukri.com/job-listings-software-java-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-5-years-261026001726?src=jobsearchDesk&sid=17929952907156001&xp=8&px=1&nignbevent_src=jobsearchDeskGNB"
+    };
+
     // ==========================================
     // APPLY
     // ==========================================
 
-    await applyService.applyToJob();
+    const applicationType =
+        await applyService.applyToJob(job);
+
+    // ==========================================
+    // DIRECT APPLICATION
+    // ==========================================
+
+    if (applicationType === "DIRECT_APPLY") {
+
+        console.log(
+            "Direct application completed successfully."
+        );
+
+        console.log(
+            "Test PASSED - No questionnaire required."
+        );
+
+        return;
+    }
+
+    // ==========================================
+    // QUESTIONNAIRE APPLICATION
+    // ==========================================
+
+    console.log(
+        "Recruiter questionnaire detected."
+    );
 
     console.log(
         "Application flow started"

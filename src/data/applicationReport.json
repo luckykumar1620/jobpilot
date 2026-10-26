@@ -1,0 +1,56 @@
+[
+  {
+    "jobId": "TEST-001",
+    "title": "QA Automation Engineer",
+    "company": "Test Company",
+    "jobUrl": "https://www.naukri.com/test-job",
+    "status": "APPLIED",
+    "timestamp": "2026-10-16T18:14:21.847Z",
+    "message": "Application submitted successfully"
+  },
+  {
+    "jobId": "261026000185",
+    "title": "Software Developer",
+    "company": "Jobaaj.com",
+    "jobUrl": "https://www.naukri.com/job-listings-software-developer-jobaaj-com-hyderabad-pune-bengaluru-0-to-1-years-261026000185",
+    "status": "APPLIED",
+    "timestamp": "2026-10-26T07:04:43.934Z",
+    "message": "Application submitted successfully"
+  },
+  {
+    "jobId": "261026001729",
+    "title": "Junior Developer",
+    "company": "Creative Hands HR",
+    "jobUrl": "https://www.naukri.com/job-listings-junior-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-2-years-261026001729",
+    "status": "APPLIED",
+    "timestamp": "2026-10-26T07:17:42.976Z",
+    "message": "Application submitted successfully with one-click apply"
+  },
+  {
+    "jobId": "261026001726",
+    "title": "Software Java Developer",
+    "company": "Creative Hands HR",
+    "jobUrl": "https://www.naukri.com/job-listings-junior-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-2-years-261026001729?src=jobsearchDesk&sid=17929952907156001&xp=5&px=1&nignbevent_src=jobsearchDeskGNB",
+    "status": "FAILED",
+    "timestamp": "2026-10-26T07:34:04.368Z",
+    "message": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Apply', exact: true }).first() to be visible\u001b[22m\n"
+  },
+  {
+    "jobId": "261026001726",
+    "title": "Software Java Developer",
+    "company": "Creative Hands HR",
+    "jobUrl": "https://www.naukri.com/job-listings-junior-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-2-years-261026001729?src=jobsearchDesk&sid=17929952907156001&xp=5&px=1&nignbevent_src=jobsearchDeskGNB",
+    "status": "FAILED",
+    "timestamp": "2026-10-26T07:34:56.180Z",
+    "message": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Apply', exact: true }).first() to be visible\u001b[22m\n"
+  },
+  {
+    "jobId": "261026001726",
+    "title": "Software Java Developer",
+    "company": "Creative Hands HR",
+    "jobUrl": "https://www.naukri.com/job-listings-software-java-developer-creative-hands-hr-hyderabad-chennai-bengaluru-0-to-5-years-261026001726?src=jobsearchDesk&sid=17929952907156001&xp=8&px=1&nignbevent_src=jobsearchDeskGNB",
+    "status": "APPLIED",
+    "timestamp": "2026-10-26T07:40:01.439Z",
+    "message": "Application submitted successfully with one-click apply"
+  }
+]
